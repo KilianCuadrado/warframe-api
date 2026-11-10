@@ -1,0 +1,3 @@
+<template>
+    <p>Weapons</p>
+</template>
