@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { Home } from '../views/Home.vue'
-import { Alerts } from '../views/Alerts.vue'
-import { Warframes } from '../views/Warframes.vue'
-import { Weapons } from '../views/Weapons.vue'
-import { Drops } from '../views/Drops.vue'
-import { NotFound } from '../views/NotFound.vue'
+import Home from '../views/Home.vue'
+import Alerts from '../views/Alerts.vue'
+import Warframes from '../views/Warframes.vue'
+import Weapons from '../views/Weapons.vue'
+import Drops from '../views/Drops.vue'
+import NotFound from '../views/NotFound.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
