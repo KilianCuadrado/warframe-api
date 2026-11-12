@@ -8,6 +8,7 @@
 
 </script>
 <template>
+    <!--Anyadir buscador con nombre i drop down si filtrar prime o desde fecha de relase hasta otra fecha i tipo-->
         <main class="weapons-page">
                 <section class="page-heading">
                         <h1>Weapons</h1>

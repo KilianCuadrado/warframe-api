@@ -30,6 +30,7 @@
                     <strong>{{ props.sprintSpeed != null ? Number(props.sprintSpeed).toFixed(2) : '-' }}</strong>
                 </div>
             </div>
+            <RouterLink class="info-link" :to="`/warframes/${props.name}`">Ver info</RouterLink>
         </div>
     </article>
 </template>
@@ -45,7 +46,7 @@
         shield: Number,
         armor: Number,
         power: Number,
-        sprintSpeed: Number
+        sprintSpeed: Number,
     })
 
     const imageUrl = `https://cdn.warframestat.us/img/${props.image}`
@@ -59,17 +60,6 @@
         overflow: hidden;
         position: relative;
         transition: border-color 180ms ease, transform 180ms ease;
-    }
-
-    .warframe-card::before {
-        background: #69d7e9;
-        content: '';
-        height: 2px;
-        left: 0;
-        position: absolute;
-        top: 0;
-        width: 44px;
-        z-index: 1;
     }
 
     .warframe-card:hover {
@@ -110,7 +100,11 @@
 
     .warframe-info {
         border-top: 1px solid rgba(119, 190, 204, 0.2);
-        padding: 16px 18px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        min-height: 320px;
+        padding: 16px 18px 18px;
     }
 
     .warframe-category {
@@ -166,6 +160,27 @@
         font-size: 1rem;
         font-weight: 600;
         margin-top: 4px;
+    }
+
+    .info-link {
+        align-items: center;
+        background: linear-gradient(90deg, rgba(103, 215, 234, 0.1), rgba(103, 215, 234, 0));
+        border: 1px solid rgba(103, 215, 234, 0.55);
+        color: #c6f5fd;
+        display: inline-flex;
+        letter-spacing: 0.14em;
+        margin-top: auto;
+        padding: 8px 12px;
+        text-decoration: none;
+        text-transform: uppercase;
+        transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+        width: fit-content;
+    }
+
+    .info-link:hover {
+        background: rgba(103, 215, 234, 0.18);
+        border-color: #75e3f4;
+        transform: translateX(2px);
     }
 
     @media (max-width: 420px) {

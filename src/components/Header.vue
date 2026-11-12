@@ -6,10 +6,8 @@
       </RouterLink>
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/alerts">Alerts</RouterLink>
         <RouterLink to="/warframes">Warframes</RouterLink>
         <RouterLink to="/weapons">Weapons</RouterLink>
-        <RouterLink to="/drops">Drops</RouterLink>
       </nav>
   </header>
 </template>
@@ -23,16 +21,6 @@
     max-width: 1440px;
     padding: 18px clamp(20px, 5vw, 72px);
     position: relative;
-  }
-
-  .site-header::after {
-    background: #65d8ed;
-    bottom: -1px;
-    content: '';
-    height: 2px;
-    left: clamp(20px, 5vw, 72px);
-    position: absolute;
-    width: 52px;
   }
 
   .brand {

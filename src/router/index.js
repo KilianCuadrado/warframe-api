@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-import Alerts from '../views/Alerts.vue'
-import Warframes from '../views/Warframes.vue'
-import Weapons from '../views/Weapons.vue'
-import Drops from '../views/Drops.vue'
-import NotFound from '../views/NotFound.vue'
+import Home from '@/views/Home.vue'
+import Warframes from '@/views/Warframes.vue'
+import Weapons from '@/views/Weapons.vue'
+import NotFound from '@/views/NotFound.vue'
+import WeaponSpec from '@/views/WeaponSpec.vue'
+import WarframeSpec from '@/views/WarframeSpec.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,14 +15,14 @@ const router = createRouter({
       component: Home,
     },
     {
-      path:'/alerts',
-      name:'alerts',
-      component: Alerts,
-    },
-    {
       path:'/warframes',
       name:'warframes',
       component: Warframes
+    },
+    {
+      path:'/warframes/:id',
+      name:'warframeSpec',
+      component: WarframeSpec
     },
     {
       path:'/weapons',
@@ -30,9 +30,9 @@ const router = createRouter({
       component: Weapons
     },
     {
-      path:'/drops',
-      name:'drops',
-      component: Drops
+      path: '/weapons/:id',
+      name: 'weaponSpec',
+      component: WeaponSpec
     },
     {
       path :'/:pathMatch(.*)*',

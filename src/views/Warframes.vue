@@ -1,22 +1,39 @@
 <script setup>
-    import { useWarframeApi } from '@/composable/useWarframeApi';
-    import WarframePreview from '../components/WarframePreview.vue';
+    import { ref, computed } from 'vue'
+    import { useWarframeApi } from '@/composable/useWarframeApi'
+    import WarframePreview from '../components/WarframePreview.vue'
+    import Searchbar from '@/components/Searchbar.vue'
 
     const urlBase = 'https://api.warframestat.us/warframes'
     const { data, error, loading } = useWarframeApi(urlBase)
+
+    const searchText = ref('')
+
+    function searchWarframes(input) {
+        searchText.value = (input || '').trim()
+    }
+
+    const filteredWarframes = computed(() => {
+        const term = searchText.value.toLowerCase()//combierte el texto de busqueda a lower
+        const list = Array.isArray(data.value) ? data.value : []//compruva si el data value es array si lo es la const list es data.value en caso contrario se hace un array vacio
+        if (!term) return list
+            return list.filter((w) => (w.name || '').toLowerCase().includes(term))
+    })
 </script>
 
 <template>
+    <!--Anyadir buscador con nombre i drop down si filtrar prime o desde fecha de relase hasta otra fecha-->
     <main class="warframes-page">
         <section class="page-heading">
             <h1>Warframes</h1>
             <p class="intro">Discover the guardians of the Origin System.</p>
         </section>
+        <Searchbar @search="searchWarframes" />
         <p v-if="loading" class="status">SYNCING WARFRAMES<span>...</span><small>Downloading frame data</small></p>
         <p v-else-if="error" class="status status-error">CONNECTION ERROR // {{ error }}</p>
         <section v-else class="warframe-grid">
             <WarframePreview
-                v-for="warframe in data"
+                v-for="warframe in filteredWarframes"
                 :key="warframe.name"
                 :name="warframe.name"
                 :image="warframe.imageName"
