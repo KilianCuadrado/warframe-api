@@ -1,10 +1,9 @@
 <script setup>
-    import { useWarframeApi } from '@/composable/useWarframeApi';
+    import { useWarframeApi, API_BASE_URL } from '@/composable/useWarframeApi';
     import WeaponPreview from '../components/WeaponPreview.vue';
 
-    const url_base='https://api.warframestat.us/weapons'
+    const url_base=`${API_BASE_URL}/weapons`
     const {data, error, loading, refetch: fetchData } = useWarframeApi(url_base)
-    const formatTags = (tags) => Array.isArray(tags) ? tags.join(' // ') : ''
 
 </script>
 <template>
@@ -17,14 +16,9 @@
                 <p v-if="loading" class="status">SYNCING ARSENAL<span>...</span><small>Downloading weapon data</small></p>
                 <p v-else-if="error" class="status status-error">CONNECTION ERROR // {{ error }}</p>
                 <section v-else class="weapon-grid">
-                        <WeaponPreview v-for="weapon in data" 
+                        <WeaponPreview v-for="weapon in data"
                         :key="weapon.name"
-                        :weaponName="weapon.name" 
-                        :img="weapon.imageName" 
-                        :desc="weapon.description"
-                        :type="weapon.type"
-                        :relDate="weapon.releaseDate"
-                        :tag="formatTags(weapon.tags)"
+                        :weapon="weapon"
                         />
                 </section>
         </main>

@@ -1,24 +1,13 @@
 <script setup>
-    import { ref, computed } from 'vue'
-    import { useWarframeApi } from '@/composable/useWarframeApi'
+    import { useWarframeApi, API_BASE_URL } from '@/composable/useWarframeApi'
+    import { useSearch } from '@/composable/useSearch'
     import WarframePreview from '../components/WarframePreview.vue'
     import Searchbar from '@/components/Searchbar.vue'
 
-    const urlBase = 'https://api.warframestat.us/warframes'
+    const urlBase = `${API_BASE_URL}/warframes`
     const { data, error, loading } = useWarframeApi(urlBase)
 
-    const searchText = ref('')
-
-    function searchWarframes(input) {
-        searchText.value = (input || '').trim()
-    }
-
-    const filteredWarframes = computed(() => {
-        const term = searchText.value.toLowerCase()//combierte el texto de busqueda a lower
-        const list = Array.isArray(data.value) ? data.value : []//compruva si el data value es array si lo es la const list es data.value en caso contrario se hace un array vacio
-        if (!term) return list
-            return list.filter((w) => (w.name || '').toLowerCase().includes(term))
-    })
+    const { setSearch: searchWarframes, filteredItems: filteredWarframes } = useSearch(data)
 </script>
 
 <template>
@@ -35,16 +24,7 @@
             <WarframePreview
                 v-for="warframe in filteredWarframes"
                 :key="warframe.name"
-                :name="warframe.name"
-                :image="warframe.imageName"
-                :description="warframe.description"
-                :type="warframe.type"
-                :release-date="warframe.releaseDate"
-                :health="warframe.health"
-                :shield="warframe.shield"
-                :armor="warframe.armor"
-                :power="warframe.power"
-                :sprint-speed="warframe.sprintSpeed"
+                :warframe="warframe"
             />
         </section>
     </main>

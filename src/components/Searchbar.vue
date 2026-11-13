@@ -4,9 +4,10 @@
             v-model="valor"
             type="text"
             class="search-input"
-            placeholder="Buscar warframe por nombre..."
+            placeholder="Buscar por nombre..."
             @keyup.enter="busqueda"
         />
+        <button type="button" class="search-button" @click="busqueda">Buscar</button>
     </div>
 </template>
 <script setup>
@@ -21,9 +22,29 @@
 
 <style scoped>
     .searchbar-wrap {
+        display: flex;
+        gap: 10px;
         margin: 0 0 28px;
         max-width: 520px;
         position: relative;
+    }
+
+    .search-button {
+        background: rgba(101, 216, 237, 0.12);
+        border: 1px solid rgba(101, 216, 237, 0.55);
+        color: #c6f5fd;
+        cursor: pointer;
+        font-size: 0.9rem;
+        letter-spacing: 0.12em;
+        flex-shrink: 0;
+        padding: 0 18px;
+        text-transform: uppercase;
+        transition: background 180ms ease, border-color 180ms ease;
+    }
+
+    .search-button:hover {
+        background: rgba(101, 216, 237, 0.24);
+        border-color: #75e3f4;
     }
 
     .search-input {
@@ -57,6 +78,10 @@
         .search-input {
             font-size: 0.95rem;
             padding: 11px 12px;
+        }
+
+        .search-button {
+            padding: 0 12px;
         }
     }
 </style>

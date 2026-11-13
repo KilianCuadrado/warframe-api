@@ -1,55 +1,54 @@
 <template>
     <article class="warframe-card">
         <div class="warframe-image">
-            <span class="corner-tag">{{ props.type || 'WARFRAME' }} // {{ props.releaseDate || 'UNKNOWN' }}</span>
-            <img :src="imageUrl" :alt="props.name" />
+            <span class="corner-tag">{{ props.warframe.type || 'WARFRAME' }} // {{ props.warframe.releaseDate || 'UNKNOWN' }}</span>
+            <img :src="imageUrl" :alt="props.warframe.name" />
         </div>
         <div class="warframe-info">
             <p class="warframe-category">FRAME PROFILE</p>
-            <h2>{{ props.name }}</h2>
-            <p class="description">{{ props.description || 'No field data available.' }}</p>
+            <h2>{{ props.warframe.name }}</h2>
+            <p class="description">{{ props.warframe.description || 'No field data available.' }}</p>
             <div class="stats-grid">
                 <div class="stat">
                     <span>HEALTH</span>
-                    <strong>{{ props.health ?? '-' }}</strong>
+                    <strong>{{ props.warframe.health ?? '-' }}</strong>
                 </div>
                 <div class="stat">
                     <span>SHIELD</span>
-                    <strong>{{ props.shield ?? '-' }}</strong>
+                    <strong>{{ props.warframe.shield ?? '-' }}</strong>
                 </div>
                 <div class="stat">
                     <span>ARMOR</span>
-                    <strong>{{ props.armor ?? '-' }}</strong>
+                    <strong>{{ props.warframe.armor ?? '-' }}</strong>
                 </div>
                 <div class="stat">
                     <span>POWER</span>
-                    <strong>{{ props.power ?? '-' }}</strong>
+                    <strong>{{ props.warframe.power ?? '-' }}</strong>
                 </div>
                 <div class="stat">
                     <span>SPRINT</span>
-                    <strong>{{ props.sprintSpeed != null ? Number(props.sprintSpeed).toFixed(2) : '-' }}</strong>
+                    <strong>{{ formatDecimal(props.warframe.sprintSpeed) }}</strong>
                 </div>
             </div>
-            <RouterLink class="info-link" :to="`/warframes/${props.name}`">Ver info</RouterLink>
+            <RouterLink class="info-link" :to="{ name: 'warframeSpec', params: { id: props.warframe.name } }">Ver info</RouterLink>
         </div>
     </article>
 </template>
 
 <script setup>
+    import { computed } from 'vue'
+    import { useFormatters } from '@/composable/useFormatters'
+
+    // Recibe el objeto entero del warframe con todos sus atributos
     const props = defineProps({
-        name: String,
-        image: String,
-        description: String,
-        type: String,
-        releaseDate: String,
-        health: Number,
-        shield: Number,
-        armor: Number,
-        power: Number,
-        sprintSpeed: Number,
+        warframe: {
+            type: Object,
+            required: true,
+        },
     })
 
-    const imageUrl = `https://cdn.warframestat.us/img/${props.image}`
+    const { getImageUrl, formatDecimal } = useFormatters()
+    const imageUrl = computed(() => getImageUrl(props.warframe.imageName))
 </script>
 
 <style scoped>

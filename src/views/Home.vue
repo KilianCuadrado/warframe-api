@@ -74,7 +74,7 @@
                         <p class="meta">{{ alert.mission.node }} - {{ alert.mission.faction }}</p>
                         <ul>
                             <li v-for="reward in alert.mission.reward.countedItems" :key="reward.type" class="reward-item">
-                                <img :src="`https://cdn.warframestat.us/img/${reward.type}.png`" :alt="reward.type" />
+                                <img :src="getImageUrl(`${reward.type}.png`)" :alt="reward.type" />
                                 <span>{{ reward.count }}x {{ reward.type }}</span>
                             </li>
                         </ul>
@@ -85,25 +85,13 @@
     </main>
 </template>
 <script setup>
-    import { useWarframeApi } from '@/composable/useWarframeApi';
+    import { useWarframeApi, API_BASE_URL } from '@/composable/useWarframeApi';
+    import { useFormatters } from '@/composable/useFormatters';
 
-    const urlBase = 'https://api.warframestat.us/ns'
+    const urlBase = `${API_BASE_URL}/ns`
     const { data, error, loading } = useWarframeApi(urlBase)
 
-    const formatDateTime = (value) => {
-        if (!value) return '-'
-
-        const parsed = new Date(value)
-        if (Number.isNaN(parsed.getTime())) return value
-
-        return new Intl.DateTimeFormat('es-ES', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-        }).format(parsed)
-    }
+    const { formatDateTime, getImageUrl } = useFormatters()
 
     const getNoticeTags = (notice) => {
         const tags = []

@@ -1,27 +1,31 @@
 <template>
     <article class="weapon-card">
         <div class="weapon-image">
-            <span class="corner-tag">{{ props.tag }} // {{ props.relDate }}</span>
-            <img :src="imgUrl" :alt="props.weaponName" />
+            <span class="corner-tag">{{ formatTags(props.weapon.tags) }} // {{ props.weapon.releaseDate }}</span>
+            <img :src="imgUrl" :alt="props.weapon.name" />
         </div>
         <div class="weapon-info">
-            <p class="weapon-type"> {{ props.type }}</p>
-            <h2>{{ props.weaponName }}</h2>
-            <p class="description">{{ props.desc || 'No field data available.' }}</p>
+            <p class="weapon-type"> {{ props.weapon.type }}</p>
+            <h2>{{ props.weapon.name }}</h2>
+            <p class="description">{{ props.weapon.description || 'No field data available.' }}</p>
+            <RouterLink class="info-link" :to="{ name: 'weaponSpec', params: { id: props.weapon.name } }">Ver info</RouterLink>
         </div>
     </article>
 
 </template>
 <script setup>
+    import { computed } from 'vue'
+    import { useFormatters } from '@/composable/useFormatters'
+
+    // Recibe el objeto entero del arma con todos sus atributos
     const props = defineProps ({
-        weaponName: String,
-        img: String,
-        desc: String,
-        type: String,
-        relDate: String,
-        tag: String
+        weapon: {
+            type: Object,
+            required: true,
+        },
     })
-    const imgUrl = `https://cdn.warframestat.us/img/${props.img}`
+    const { getImageUrl, formatTags } = useFormatters()
+    const imgUrl = computed(() => getImageUrl(props.weapon.imageName))
 </script>
 
 <style scoped>
@@ -83,6 +87,8 @@
 
     .weapon-info {
         border-top: 1px solid rgba(119, 190, 204, 0.2);
+        display: flex;
+        flex-direction: column;
         padding: 16px 18px 20px;
     }
 
@@ -112,4 +118,25 @@
         overflow-wrap: anywhere;
     }
 
+
+    .info-link {
+        align-items: center;
+        background: linear-gradient(90deg, rgba(103, 215, 234, 0.1), rgba(103, 215, 234, 0));
+        border: 1px solid rgba(103, 215, 234, 0.55);
+        color: #c6f5fd;
+        display: inline-flex;
+        letter-spacing: 0.14em;
+        margin-top: 14px;
+        padding: 8px 12px;
+        text-decoration: none;
+        text-transform: uppercase;
+        transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+        width: fit-content;
+    }
+
+    .info-link:hover {
+        background: rgba(103, 215, 234, 0.18);
+        border-color: #75e3f4;
+        transform: translateX(2px);
+    }
 </style>
